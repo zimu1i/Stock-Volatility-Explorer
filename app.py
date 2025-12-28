@@ -57,7 +57,7 @@ if len(selected_tickers) > 0:
     start_date = st.sidebar.date_input("Start date", value=pd.to_datetime("2020-01-01"))
 
     best = normalized.iloc[-1].idxmax()
-    st.success(f"📈 Best performer: {best}")
+    st.success(f"📈 Highest volatility: {best}")
 
     worst = normalized.iloc[-1].idxmin()
-    st.error(f"📉 Worst performer: {worst}")
+    st.error(f"📉 Lowest volatility: {worst}")
