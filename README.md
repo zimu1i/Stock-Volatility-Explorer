@@ -46,8 +46,8 @@ Volatility is a key measure of financial risk, it helps investors to clarify ris
 
 ### 1️⃣ Clone the Repository
 ```bash
-git clone https://github.com/your-username/stock-volatility-explorer.git
-cd stock-volatility-explorer
+git clone https://github.com/zimu1i/Stock-Volatility-Explorer
+cd Stock-Volatility-Explorer
 ```
 ### 2️⃣ Install Dependencies
 
