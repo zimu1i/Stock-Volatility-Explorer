@@ -128,8 +128,6 @@ if len(selected_tickers) > 0:
     highest_vol_ticker = volatility.idxmax()
     lowest_vol_ticker = volatility.idxmin()
     
-    st.success(f"📈 Highest volatility: {highest_vol_ticker} ({volatility[highest_vol_ticker]:.2%})")
-    st.info(f"💡 **Insight:** {get_volatility_insight(highest_vol_ticker, is_highest=True)}")
-
-    st.error(f"📉 Lowest volatility: {lowest_vol_ticker} ({volatility[lowest_vol_ticker]:.2%})")
-    st.info(f"💡 **Insight:** {get_volatility_insight(lowest_vol_ticker, is_highest=False)}")
+    # Combine value + insight in one display per ticker
+    st.success(f"📈 Highest volatility: {highest_vol_ticker} ({volatility[highest_vol_ticker]:.2%})\n\n💡 Insight: {get_volatility_insight(highest_vol_ticker, is_highest=True)}")
+    st.error(f"📉 Lowest volatility: {lowest_vol_ticker} ({volatility[lowest_vol_ticker]:.2%})\n\n💡 Insight: {get_volatility_insight(lowest_vol_ticker, is_highest=False)}")
