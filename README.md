@@ -73,4 +73,9 @@ AAPL, MSFT, TSLA, NVDA, AMD, META, AMZN, JPM, SPY, GLD, SHOP, PLTR, RKLB, LLY, H
 - Correlation matrix & heatmaps
 - Options-implied volatility integration
 
+## ⚠️ Disclaimer
+
+This Stock Volatility Explorer is for educational and informational purposes only. It provides historical stock data and volatility analysis to help you explore trends and compare stocks.
+
+**Important**: This project does not provide financial, investment, or trading advice. Use at your own risk. Always perform your own research or consult a licensed financial professional before making investment decisions.
 
