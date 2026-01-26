@@ -4,7 +4,7 @@ import streamlit as st  # pyright: ignore[reportMissingImports]
 st.title("Stock Volatility Explorer")
 st.write("This app allows you to explore the volatility of different stocks.")
 
-# User Guide Section
+# explanations
 with st.expander("📖 How to Use This App", expanded=True):
     st.markdown("""
     ### Getting Started
@@ -45,15 +45,15 @@ with st.expander("📖 How to Use This App", expanded=True):
 
 st.sidebar.header("Controls")
 
-# Option to enable/disable auto-refresh
+# auto-refresh (optional)
 auto_refresh = st.sidebar.checkbox("Enable auto-refresh (every 60s)", value=True)
 if auto_refresh:
     st_autorefresh(interval=60 * 1000, key="refresh")
 
-# Default tickers
+# all tickers available
 default_tickers = ["AAPL", "MSFT", "TSLA", "JPM", "SPY", "NVDA", "AMD", "SBUX", "BABA", "INTC", "HOOD", "AVGO", "IREN", "META", "SHOP", "RKLB", "LLY", "GLD", "AMZN", "PLTR"]
 
-# Multiselect for stock tickers
+# multiselecting tickers
 selected_tickers = st.sidebar.multiselect(
     "Select Stock Tickers",
     options=default_tickers,
@@ -61,7 +61,7 @@ selected_tickers = st.sidebar.multiselect(
     help="Choose one or more stock tickers to analyze"
 )
 
-# Check if at least one ticker is selected
+# if none selected, warning
 if len(selected_tickers) == 0:
     st.warning("⚠️ Please select at least one stock ticker to proceed with the analysis.")
 
@@ -69,9 +69,8 @@ import yfinance as yf  # pyright: ignore[reportMissingImports]
 import pandas as pd  # pyright: ignore[reportMissingImports]
 from datetime import datetime
 
-@st.cache_data(ttl=60)  # Cache expires after 60 seconds for real-time updates
+@st.cache_data(ttl=60)  # real-time update
 def load_data(tickers_tuple, start_date):
-    # Convert tuple back to list for yfinance
     tickers = list(tickers_tuple)
     data = yf.download(tickers, start=start_date, progress=False)["Close"]
     return data
@@ -95,7 +94,6 @@ def get_volatility_insight(ticker, is_highest=True):
             "high": "Microsoft's volatility can increase due to enterprise contract cycles, cloud computing competition, or regulatory concerns. Recent volatility may reflect shifting market dynamics in the tech sector.",
             "low": "Microsoft demonstrates low volatility thanks to its diversified business model (software, cloud, gaming), strong enterprise relationships, and consistent dividend payments that attract stable investors."
         },
-        # ... (all other tickers remain unchanged)
     }
     
     key = "high" if is_highest else "low"
@@ -104,13 +102,13 @@ def get_volatility_insight(ticker, is_highest=True):
 if len(selected_tickers) > 0:
     start_date = st.sidebar.date_input("Start date", value=pd.to_datetime("2020-01-01"))
     
-    # Load and cache data
-    prices = load_data(tuple(sorted(selected_tickers)), start_date=start_date)  # Sort for consistent cache key
+    # load and cache
+    prices = load_data(tuple(sorted(selected_tickers)), start_date=start_date)  # sort
     
-    # Compute metrics with caching
+    # compute metrics
     normalized, returns, volatility = compute_metrics(prices)
     
-    # Display last update time
+    # last updated time display
     st.caption(f"🔄 Last updated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     
     st.write(prices.tail())
@@ -124,10 +122,10 @@ if len(selected_tickers) > 0:
     st.subheader("Annualized Volatility")
     st.dataframe(volatility.to_frame("Volatility"))
 
-    # Find highest and lowest volatility stocks
+    # highest and lowest volatility
     highest_vol_ticker = volatility.idxmax()
     lowest_vol_ticker = volatility.idxmin()
     
-    # Combine value + insight in one display per ticker
+    # value and insight outputs
     st.success(f"📈 Highest volatility: {highest_vol_ticker} ({volatility[highest_vol_ticker]:.2%})\n\n💡 Insight: {get_volatility_insight(highest_vol_ticker, is_highest=True)}")
     st.error(f"📉 Lowest volatility: {lowest_vol_ticker} ({volatility[lowest_vol_ticker]:.2%})\n\n💡 Insight: {get_volatility_insight(lowest_vol_ticker, is_highest=False)}")
